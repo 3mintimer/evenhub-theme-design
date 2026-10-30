@@ -2,6 +2,16 @@
 
 EvenHub アプリのスマートフォン側 WebView を、Even アプリのライト／ダークテーマに合わせるための Codex スキルです。
 
+## サンプル
+
+| ライトテーマ | ダークテーマ |
+|---|---|
+| ![ライトテーマのWeb見本](assets/previews/light.jpg) | ![ダークテーマのWeb見本](assets/previews/dark.jpg) |
+
+2026-10-28に撮影した、幅390pxのWeb見本のキャプチャです。Even本体やグラス実機の画面ではありません。下部メニュー追加前の基本部品を示しています。現在の見本を動かす手順は [プレビュー](#プレビュー) を参照してください。
+
+## できること
+
 - 観測した色を役割別のCSSトークンへ対応付ける
 - 文字・余白・カード・2値のスライド式トグルを揃える
 - 9言語の見本で長い欧文とCJKの折返しを比較する
@@ -38,7 +48,7 @@ $evenhub-theme-design を使って、この EvenHub アプリのスマートフ�
 python3 -m http.server 8000 --bind 127.0.0.1 --directory assets
 ```
 
-ブラウザで `http://localhost:8000/theme-preview.html` を開きます。プレビューはCSS・JavaScript・SVGだけで動き、外部フォントやCDNを使いません。原本スクリーンショットや個人データは同梱していません。
+ブラウザで `http://localhost:8000/theme-preview.html` を開きます。プレビューはCSS・JavaScript・SVGだけで動き、外部フォントやCDNを使いません。Even本体の原本キャプチャや個人データは同梱していません。
 
 ## 内容
 

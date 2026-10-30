@@ -20,12 +20,21 @@ function walk(directory) {
 try {
   const files = walk(root);
   const textFiles = new Map();
+  const sampleImages = new Set(['assets/previews/light.jpg', 'assets/previews/dark.jpg']);
+  let imageCount = 0;
   const privatePath = /(?:\/Users\/|\/home\/|\/private\/(?:tmp|var)\/|[A-Za-z]:\\Users\\)[^\s"'<>]+/;
   const secret = /(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|sk-[A-Za-z0-9]{32,}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----)/;
   for (const file of files) {
     const relative = path.relative(root, file).split(path.sep).join('/');
     assert(!relative.startsWith('private/') && !relative.startsWith('references/screenshots/'), `Private source material: ${relative}`);
     assert(!/(?:^|\/)(?:\.env(?:\..*)?|\.npmrc)$/.test(relative), `Local configuration: ${relative}`);
+    if (sampleImages.has(relative)) {
+      const jpeg = fs.readFileSync(file);
+      assert(jpeg.subarray(0, 3).equals(Buffer.from([0xff, 0xd8, 0xff])) && jpeg.subarray(-2).equals(Buffer.from([0xff, 0xd9])), `Invalid sample JPEG: ${relative}`);
+      assert(!privatePath.test(jpeg.toString('latin1')) && !secret.test(jpeg.toString('latin1')), `Private data pattern in sample JPEG: ${relative}`);
+      imageCount++;
+      continue;
+    }
     assert(/\.(?:md|css|html|js|cjs|svg|yaml)$/.test(relative) || ['LICENSE', '.gitignore'].includes(relative), `Unexpected distribution file: ${relative}`);
     const bytes = fs.readFileSync(file);
     const text = bytes.toString('utf8');
@@ -76,7 +85,7 @@ try {
     assert(/viewBox="0 0 24 24"/.test(svg), `Unexpected SVG dimensions: ${name}`);
     assert(svg.includes('currentColor') && !/<(?:script|foreignObject)\b/i.test(svg), `Unexpected SVG content: ${name}`);
   }
-  console.log(`PASS: ${files.length} text/vector files; local references; JavaScript syntax; ${locales.length} locales × ${keys.length} keys; ${icons.length} SVG icons; private-path and credential-pattern checks.`);
+  console.log(`PASS: ${textFiles.size} text/vector files; ${imageCount} sample JPEGs; local references; JavaScript syntax; ${locales.length} locales × ${keys.length} keys; ${icons.length} SVG icons; private-path and credential-pattern checks.`);
 } catch (error) {
   console.error(error.message);
   process.exitCode = 1;
