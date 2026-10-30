@@ -1,0 +1,212 @@
+/* Phone WebView only. Approximation of observed Even 2.4.0, 2026-10-28.
+   Load before app overrides. Set data-even-theme on <html>; absent/system = OS.
+   Typography and unobserved states are implementation recommendations. */
+:root {
+  color-scheme: light;
+  background: var(--even-bg);
+  --even-bg: #eeeeee;
+  --even-surface: #ffffff;
+  --even-text: #232323;
+  --even-muted: #595959;
+  --even-disabled: #919191;
+  --even-action: #232323;
+  --even-on-action: #ffffff;
+  --even-input: #e4e4e4;
+  --even-border: #d6d6d6; /* Opt-in separators; not a default bottom-menu border. */
+  --even-danger: #a12828;
+  --even-highlight: #fdf99e;
+  --even-on-highlight: #232323;
+  --even-radius: 8px;
+  --even-edge: 12px;
+  --even-row-height: 56px;
+  --even-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
+}
+
+:root[data-even-theme="dark"] {
+  color-scheme: dark;
+  --even-bg: #232323;
+  --even-surface: #2e2e2e;
+  --even-text: #eeeeee;
+  --even-muted: #bdbdbd;
+  --even-disabled: #8f8f8f;
+  --even-action: #eeeeee;
+  --even-on-action: #232323;
+  --even-input: #1c1c1c;
+  --even-border: #464646;
+  --even-danger: #ffa9a9;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-even-theme="light"]):not([data-even-theme="dark"]) {
+    color-scheme: dark;
+    --even-bg: #232323;
+    --even-surface: #2e2e2e;
+    --even-text: #eeeeee;
+    --even-muted: #bdbdbd;
+    --even-disabled: #8f8f8f;
+    --even-action: #eeeeee;
+    --even-on-action: #232323;
+    --even-input: #1c1c1c;
+    --even-border: #464646;
+    --even-danger: #ffa9a9;
+  }
+}
+
+.even-ui {
+  margin: 0;
+  background: var(--even-bg);
+  color: var(--even-text);
+  font: 400 16px / 1.45 var(--even-font);
+  overflow-wrap: anywhere;
+}
+/* Recommended locale fallbacks; these are not extracted Even font names. */
+.even-ui :lang(zh-Hans) { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif; }
+.even-ui :lang(zh-Hant) { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif; }
+.even-ui :lang(ko) { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif; word-break: keep-all; }
+.even-ui *, .even-ui *::before, .even-ui *::after { box-sizing: border-box; }
+.even-ui button, .even-ui input, .even-ui select, .even-ui textarea { font: inherit; }
+.even-ui button { cursor: pointer; }
+.even-ui button:disabled, .even-ui input:disabled { cursor: default; }
+.even-ui :where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--even-text);
+  outline-offset: 3px;
+}
+.even-ui .even-page {
+  padding: 16px var(--even-edge) calc(24px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(var(--even-edge), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--even-edge), env(safe-area-inset-right, 0px));
+}
+/* Optional full-WebView shell, only when the app owns its bottom menu.
+   Keep the menu and its safe-area padding on one continuous background. */
+.even-ui .even-app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--even-bg);
+}
+.even-ui .even-app-shell > .even-page { flex: 1 0 auto; min-width: 0; }
+.even-ui .even-page--above-bottom-bar { padding-bottom: 24px; }
+.even-ui .even-bottom-bar {
+  --even-bottom-inset: env(safe-area-inset-bottom, 0px);
+  flex-shrink: 0;
+  margin: 0;
+  padding: 8px max(var(--even-edge), env(safe-area-inset-right, 0px))
+    calc(8px + var(--even-bottom-inset)) max(var(--even-edge), env(safe-area-inset-left, 0px));
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--even-bg);
+}
+.even-ui .even-bottom-bar::before, .even-ui .even-bottom-bar::after { content: none; }
+.even-ui .even-title {
+  margin: 0 0 24px;
+  text-align: center;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.even-ui .even-section { margin: 0 0 24px; }
+.even-ui .even-section-title { margin: 0 4px 8px; font-size: 14px; font-weight: 400; }
+.even-ui .even-card { background: var(--even-surface); border-radius: var(--even-radius); }
+.even-ui .even-highlight { padding: 16px; border-radius: var(--even-radius); background: var(--even-highlight); color: var(--even-on-highlight); }
+.even-ui .even-highlight p { margin: 0; }
+.even-ui .even-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: var(--even-row-height);
+  padding: 14px 16px;
+  border: 0;
+  border-radius: var(--even-radius);
+  background: transparent;
+  color: var(--even-text);
+  text-align: left;
+}
+.even-ui .even-row:focus-visible { outline-offset: -4px; }
+.even-ui .even-row.is-selected { background: var(--even-highlight); color: var(--even-on-highlight); }
+.even-ui .even-menu-icon { display: inline-block; flex: 0 0 24px; width: 24px; height: 24px; background: currentColor; -webkit-mask: var(--even-icon-url) center / contain no-repeat; mask: var(--even-icon-url) center / contain no-repeat; }
+.even-ui .even-row-label { flex: 1 1 50%; min-width: 0; -webkit-hyphens: auto; hyphens: auto; }
+.even-ui .even-row-value { flex: 0 1 50%; min-width: 0; text-align: right; color: var(--even-muted); }
+.even-ui .even-icon { width: 20px; height: 20px; flex: 0 0 20px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.even-ui .even-help { margin: 8px 4px 0; color: var(--even-muted); font-size: 14px; line-height: 1.5; -webkit-hyphens: auto; hyphens: auto; }
+.even-ui .even-error { margin: 8px 4px 0; color: var(--even-danger); font-size: 14px; }
+.even-ui .even-row:disabled, .even-ui .even-row.is-disabled { color: var(--even-disabled); }
+.even-ui .even-radio {
+  appearance: none;
+  position: relative;
+  margin: 0;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--even-text);
+}
+.even-ui .even-radio:checked::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 1px;
+  width: 7px;
+  height: 14px;
+  border: solid currentColor;
+  border-width: 0 1.6px 1.6px 0;
+  transform: rotate(45deg);
+}
+.even-ui .even-switch {
+  appearance: none;
+  position: relative;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 22px;
+  margin: 0;
+  border: 2px solid var(--even-muted);
+  border-radius: 4px;
+  background: var(--even-surface);
+}
+.even-ui .even-switch::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--even-muted);
+  transition: transform 160ms ease-out;
+}
+.even-ui .even-switch:checked { background: var(--even-action); border-color: var(--even-action); }
+.even-ui .even-switch:checked::before { transform: translateX(14px); background: var(--even-on-action); }
+.even-ui .even-switch:disabled { opacity: .45; }
+.even-ui .even-button {
+  min-height: 44px;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--even-action);
+  color: var(--even-on-action);
+  font-weight: 400;
+}
+.even-ui .even-button:active { opacity: .82; }
+.even-ui .even-button:disabled { background: var(--even-input); color: var(--even-disabled); }
+.even-ui .even-button--secondary { background: var(--even-surface); color: var(--even-text); }
+.even-ui .even-field { display: block; margin: 0 0 8px; }
+.even-ui .even-input {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: var(--even-radius);
+  background: var(--even-input);
+  color: var(--even-text);
+}
+.even-ui .even-input::placeholder { color: var(--even-muted); opacity: 1; }
+.even-ui .even-input[aria-invalid="true"] { border-color: var(--even-danger); }
+
+@media (prefers-reduced-motion: reduce) {
+  .even-ui .even-switch::before { transition: none; }
+}

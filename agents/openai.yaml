@@ -1,0 +1,4 @@
+interface:
+  display_name: "EvenHub テーマ・トーン設計"
+  short_description: "Even の実画面に合わせて両テーマ・表示言語の UI とメニューアイコンを作る"
+  default_prompt: "$evenhub-theme-design を使って、この EvenHub アプリのスマートフォン画面とメニューアイコンを Even のライト／ダークテーマに合わせてください。"

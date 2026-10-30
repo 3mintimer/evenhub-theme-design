@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>EvenHub テーマ比較</title>
+  <link rel="stylesheet" href="even-theme.css">
+  <style>
+    .preview-controls { max-width: 580px; margin: 20px auto; padding: 0 12px; }
+    .preview-controls h1 { margin: 0 0 6px; font-size: 20px; font-weight: 500; }
+    .preview-controls p { margin: 0 0 12px; color: var(--even-muted); font-size: 13px; }
+    .preview-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .preview-tools button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--even-border); border-radius: 6px; background: var(--even-surface); color: var(--even-text); }
+    .preview-tools button[aria-pressed="true"] { background: var(--even-action); color: var(--even-on-action); }
+    .preview-tools label { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .preview-tools select { min-height: 44px; padding: 6px; color: var(--even-text); background: var(--even-surface); border: 1px solid var(--even-border); border-radius: 6px; }
+    .preview-frame { width: min(var(--preview-width, 375px), 100%); margin: 20px auto; }
+    .preview-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .preview-status { min-height: 1.5em; }
+    /* Simulation for this preview only. Production uses env() in even-theme.css. */
+    .even-ui .preview-bottom-menu { --even-bottom-inset: var(--preview-bottom-inset, 34px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+    .preview-bottom-menu button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-width: 0; min-height: 64px; padding: 8px 4px; border: 0; border-radius: 8px; background: transparent; color: var(--even-muted); font-size: 13px; line-height: 1.4; overflow-wrap: anywhere; }
+    .preview-bottom-menu button[aria-pressed="true"] { background: var(--even-surface); color: var(--even-text); }
+  </style>
+</head>
+<body class="even-ui">
+  <header class="preview-controls" lang="ja">
+    <h1>EvenHub テーマ比較</h1>
+    <p>Even v2.4.0 の観測を元にした Web 用の見本。テーマのシステム設定は OS／ブラウザに追従します。表示言語は見本画面だけを切り替えます。</p>
+    <p>最下部はアプリ独自のメニューと下側余白を、線で区切らずつなぐ実装例です。Even 本体のタブの複製ではありません。</p>
+    <div class="preview-tools" aria-label="プレビュー設定">
+      <button type="button" data-theme-choice="system" aria-pressed="true">システム</button>
+      <button type="button" data-theme-choice="light" aria-pressed="false">ライト</button>
+      <button type="button" data-theme-choice="dark" aria-pressed="false">ダーク</button>
+      <label>表示幅
+        <select id="preview-width">
+          <option value="320">320 px</option>
+          <option value="375" selected>375 px</option>
+          <option value="390">390 px</option>
+          <option value="430">430 px</option>
+        </select>
+      </label>
+      <label>表示言語
+        <select id="preview-language">
+          <option value="en" lang="en">English</option>
+          <option value="zh-Hans" lang="zh-Hans">简体中文</option>
+          <option value="zh-Hant" lang="zh-Hant">繁體中文</option>
+          <option value="ja" lang="ja" selected>日本語</option>
+          <option value="es" lang="es">Español</option>
+          <option value="fr" lang="fr">Français</option>
+          <option value="de" lang="de">Deutsch</option>
+          <option value="it" lang="it">Italiano</option>
+          <option value="ko" lang="ko">한국어</option>
+        </select>
+      </label>
+      <label>下側余白の模擬値
+        <select id="preview-bottom-inset">
+          <option value="0">0 px</option>
+          <option value="20">20 px</option>
+          <option value="34" selected>34 px</option>
+        </select>
+      </label>
+    </div>
+  </header>
+  <main class="preview-frame" id="preview-frame" lang="ja">
+    <div class="even-page even-page--above-bottom-bar">
+      <h2 class="even-title" data-i18n="appTitle">アプリ設定</h2>
+      <section class="even-section" aria-labelledby="highlight-heading">
+        <h3 class="even-section-title" id="highlight-heading" data-i18n="highlightTitle">選択・重要な要約の強調</h3>
+        <div class="even-highlight"><p data-i18n="highlightSelected">選択中：グラスに表示する情報</p></div>
+        <p class="even-help" data-i18n="highlightHelp">黄色の面と濃い文字の組合せは両テーマで保ちます。</p>
+      </section>
+      <section class="even-section" aria-labelledby="display-heading">
+        <h3 class="even-section-title" id="display-heading" data-i18n="displayHeading">表示</h3>
+        <div class="even-card">
+          <div class="even-row">
+            <span class="even-row-label" data-i18n="interval">更新間隔</span>
+            <span class="even-row-value" data-i18n="seconds30">30 秒</span>
+          </div>
+          <label class="even-row">
+            <span class="even-row-label" data-i18n="notifications">通知を表示</span>
+            <input class="even-switch" type="checkbox" role="switch" checked>
+          </label>
+          <label class="even-row">
+            <span class="even-row-label" data-i18n="details">詳細な情報をグラスの画面に表示する</span>
+            <input class="even-switch" type="checkbox" role="switch">
+          </label>
+          <label class="even-row is-disabled">
+            <span class="even-row-label" data-i18n="autostart">接続時の自動開始</span>
+            <input class="even-switch" type="checkbox" role="switch" disabled>
+          </label>
+        </div>
+        <p class="even-help" data-i18n="displayHelp">グラスに表示する情報を選べます。長い日本語でも行の高さが増えて全文を読めます。</p>
+      </section>
+      <section class="even-section" aria-labelledby="input-heading">
+        <h3 class="even-section-title" id="input-heading" data-i18n="inputHeading">入力ソース</h3>
+        <div class="even-card">
+          <label class="even-row"><span class="even-row-label" data-i18n="glasses">グラス</span><input class="even-radio" type="radio" name="source" value="glasses" checked></label>
+          <label class="even-row"><span class="even-row-label" data-i18n="phone">スマートフォン</span><input class="even-radio" type="radio" name="source" value="phone"></label>
+        </div>
+        <p class="even-help" data-i18n="inputHelp">選択中の項目は右端のチェックで示します。行全体をタップして変更できます。</p>
+      </section>
+      <section class="even-section" aria-labelledby="icons-heading">
+        <h3 class="even-section-title" id="icons-heading" data-i18n="iconsHeading">メニューアイコン</h3>
+        <div class="even-card">
+          <div class="even-row"><span class="even-menu-icon" aria-hidden="true" style="--even-icon-url:url('icons/note.svg')"></span><span class="even-row-label" data-i18n="noteIcon">メモ</span></div>
+          <div class="even-row"><span class="even-menu-icon" aria-hidden="true" style="--even-icon-url:url('icons/activity.svg')"></span><span class="even-row-label" data-i18n="activityIcon">アクティビティ</span></div>
+          <div class="even-row"><span class="even-menu-icon" aria-hidden="true" style="--even-icon-url:url('icons/bell.svg')"></span><span class="even-row-label" data-i18n="notificationIcon">通知</span></div>
+          <div class="even-row is-disabled"><span class="even-menu-icon" aria-hidden="true" style="--even-icon-url:url('icons/sliders.svg')"></span><span class="even-row-label" data-i18n="disabledSettings">接続後の設定（無効）</span></div>
+        </div>
+        <p class="even-help" data-i18n="iconsHelp">新規作成した SVG の見本です。Even の公式画像ではありません。</p>
+      </section>
+      <section class="even-section" aria-labelledby="search-heading">
+        <h3 class="even-section-title" id="search-heading" data-i18n="searchHeading">検索とエラー</h3>
+        <label class="even-field" for="search" data-i18n="searchLabel">設定を検索</label>
+        <input class="even-input" id="search" type="search" placeholder="項目名を入力" data-i18n-placeholder="searchPlaceholder">
+        <label class="even-field" for="event-name" style="margin-top:16px" data-i18n="displayName">表示名</label>
+        <input class="even-input" id="event-name" aria-invalid="true" aria-describedby="name-error" value="">
+        <p class="even-error" id="name-error" data-i18n="nameError">表示名を入力してください。</p>
+      </section>
+      <div class="preview-actions">
+        <button class="even-button" id="apply-preview" type="button" data-i18n="apply">プレビューを更新</button>
+        <button class="even-button even-button--secondary" type="button" disabled data-i18n="disabledStart">接続して開始</button>
+      </div>
+      <p class="even-help preview-status" id="preview-status" role="status"></p>
+    </div>
+    <div class="even-bottom-bar preview-bottom-menu" role="group" aria-labelledby="icons-heading">
+      <button type="button" aria-pressed="true"><span class="even-menu-icon" aria-hidden="true" style="--even-icon-url:url('icons/note.svg')"></span><span data-i18n="noteIcon">メモ</span></button>
+      <button type="button" aria-pressed="false"><span class="even-menu-icon" aria-hidden="true" style="--even-icon-url:url('icons/activity.svg')"></span><span data-i18n="activityIcon">アクティビティ</span></button>
+      <button type="button" aria-pressed="false"><span class="even-menu-icon" aria-hidden="true" style="--even-icon-url:url('icons/bell.svg')"></span><span data-i18n="notificationIcon">通知</span></button>
+      <button type="button" aria-pressed="false"><span class="even-menu-icon" aria-hidden="true" style="--even-icon-url:url('icons/sliders.svg')"></span><span data-i18n="displayHeading">表示</span></button>
+    </div>
+  </main>
+  <script src="preview-locales.js"></script>
+  <script>
+    const root = document.documentElement;
+    const choices = document.querySelectorAll('[data-theme-choice]');
+    choices.forEach(button => button.addEventListener('click', () => {
+      const choice = button.dataset.themeChoice;
+      if (choice === 'system') root.removeAttribute('data-even-theme');
+      else root.dataset.evenTheme = choice;
+      choices.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    }));
+    document.querySelector('#preview-width').addEventListener('change', event => {
+      document.querySelector('#preview-frame').style.setProperty('--preview-width', `${event.target.value}px`);
+    });
+    document.querySelector('#preview-bottom-inset').addEventListener('change', event => {
+      document.querySelector('#preview-frame').style.setProperty('--preview-bottom-inset', `${event.target.value}px`);
+    });
+    const bottomChoices = document.querySelectorAll('.preview-bottom-menu button');
+    bottomChoices.forEach(button => button.addEventListener('click', () => {
+      bottomChoices.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    }));
+    let previewLocale = 'ja';
+    let previewUpdated = false;
+    const previewFrame = document.querySelector('#preview-frame');
+    const previewStatus = document.querySelector('#preview-status');
+    document.querySelector('#preview-language').addEventListener('change', event => {
+      previewLocale = Object.hasOwn(EVEN_PREVIEW_LOCALES, event.target.value) ? event.target.value : 'ja';
+      const text = EVEN_PREVIEW_LOCALES[previewLocale];
+      previewFrame.lang = previewLocale;
+      previewFrame.querySelectorAll('[data-i18n]').forEach(element => {
+        element.textContent = text[element.dataset.i18n];
+      });
+      previewFrame.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+        element.placeholder = text[element.dataset.i18nPlaceholder];
+      });
+      if (previewUpdated) previewStatus.textContent = text.updated;
+    });
+    document.querySelector('#apply-preview').addEventListener('click', () => {
+      previewUpdated = true;
+      previewStatus.textContent = EVEN_PREVIEW_LOCALES[previewLocale].updated;
+    });
+  </script>
+</body>
+</html>

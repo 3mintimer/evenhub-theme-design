@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+.venv/
+__pycache__/
+.env
+.env.*
+.npmrc
+*.log
+output/
+private/
+references/screenshots/
